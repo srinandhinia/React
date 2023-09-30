@@ -1,4 +1,5 @@
 import ExpenseComponent from "./components/ExpenseComponent";
+import ProductComponent from "./components/Products";
 function App() {
   const expenseItem = [
     {
@@ -20,6 +21,19 @@ function App() {
       price: 1200.0,
     },
   ];
+
+  const products = [
+    {
+      title: "Product 1",
+      price: 10,
+      desc: "First Product",
+    },
+    {
+      title: "Product 2",
+      price: 20,
+      desc: "Second Product",
+    },
+  ];
   return (
     <div>
       <h2>Let's get started!</h2>
@@ -38,6 +52,18 @@ function App() {
         title={expenseItem[2].title}
         price={expenseItem[2].price}
       />
+
+      <h2>My Demo Shop</h2>
+      <ProductComponent
+        title={products[0].title}
+        price={products[0].price}
+        desc={products[0].desc}
+      ></ProductComponent>
+      <ProductComponent
+        title={products[1].title}
+        price={products[1].price}
+        desc={products[1].desc}
+      ></ProductComponent>
     </div>
   );
 }
