@@ -1,71 +1,41 @@
-import ExpenseComponent from "./components/ExpenseComponent";
-import ProductComponent from "./components/Products";
-function App() {
-  const expenseItem = [
-    {
-      id: "e1",
-      date: new Date(2023, 9, 15),
-      title: "Laptop",
-      price: 800.05,
-    },
-    {
-      id: "e2",
-      date: new Date(2022, 9, 9),
-      title: "Car",
-      price: 60000.0,
-    },
-    {
-      id: "e3",
-      date: new Date(2022, 8, 25),
-      title: "Television",
-      price: 1200.0,
-    },
-  ];
+import React from "react";
+import { EXAMPLES } from "./data.js";
+import TabButton from "./components/TabButton.jsx";
 
-  const products = [
-    {
-      title: "Product 1",
-      price: 10,
-      desc: "First Product",
-    },
-    {
-      title: "Product 2",
-      price: 20,
-      desc: "Second Product",
-    },
-  ];
+// IMPORTANT:
+// In this Udemy environment, you CAN'T import & use useState like this:
+// import { useState } from 'react'
+// Instead, import & use it like this:
+// import React from "react";
+// React.useState(...)
+
+// don't change the Component name "App"
+export default function App() {
+  let [selectedTopic, setSelctedTopic] = React.useState();
+  let tabContent;
+  function handleClick(selectedButton) {
+    setSelctedTopic(selectedButton);
+    console.log(selectedTopic);
+  }
+
   return (
     <div>
-      <h2>Let's get started!</h2>
-      <ExpenseComponent
-        date={expenseItem[0].date}
-        title={expenseItem[0].title}
-        price={expenseItem[0].price}
-      />
-      <ExpenseComponent
-        date={expenseItem[1].date}
-        title={expenseItem[1].title}
-        price={expenseItem[1].price}
-      />
-      <ExpenseComponent
-        date={expenseItem[2].date}
-        title={expenseItem[2].title}
-        price={expenseItem[2].price}
-      />
+      <TabButton onSelect={() => handleClick("components")}>
+        components
+      </TabButton>
+      <TabButton onSelect={() => handleClick("jsx")}>jsx</TabButton>
+      <TabButton onSelect={() => handleClick("props")}>props</TabButton>
 
-      <h2>My Demo Shop</h2>
-      <ProductComponent
-        title={products[0].title}
-        price={products[0].price}
-        desc={products[0].desc}
-      ></ProductComponent>
-      <ProductComponent
-        title={products[1].title}
-        price={products[1].price}
-        desc={products[1].desc}
-      ></ProductComponent>
+      {!selectedTopic && <p>Please select a topic</p>}
+      {selectedTopic && (
+        <div>
+          <h2>{EXAMPLES[selectedTopic].title}</h2>
+          <p>{EXAMPLES[selectedTopic].description}</p>
+          <pre>
+            <code>{EXAMPLES[selectedTopic].code}</code>
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
-
-export default App;
