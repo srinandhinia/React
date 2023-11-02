@@ -12,3 +12,27 @@ body {
   margin: 0;
   background-color: #5f5d5d;
 }
+
+li {
+  list-style: none;
+  padding: 1rem;
+}
+
+.coreConcepts {
+  display: flex;
+}
+
+.active {
+  background-color: rgb(135, 135, 231);
+}
+
+.flex {
+  display: flex;
+}
+
+.listBorders {
+  border: 1px solid #000000;
+  background-color: green;
+  border-radius: 2px;
+  border-color: black;
+}
