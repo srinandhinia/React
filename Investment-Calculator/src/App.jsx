@@ -1,34 +1,33 @@
 import Header from "./Components/Header";
 import User_Input from "./Components/User_Input";
 import Results from "./Components/Results";
+import { useState } from "react";
+
 function App() {
+  const [inputField, setInputField] = useState({
+    initialInvestment: 6000,
+    annualInvestment: 1200,
+    expectedReturn: 6,
+    duration: 10,
+  });
+
+  const isValidDuration = inputField.duration >= 1;
+
+  function handleEditInputField(labelName, input) {
+    setInputField((prevInputs) => {
+      return { ...prevInputs, [labelName]: +input };
+    });
+  }
+
   return (
     <>
       <Header />
-      <div id="user-input" className="input-group">
-        <div>
-          <div className="input-block">
-            <label>Initial Investment</label>
-            <User_Input label="Initial Investment" />
-          </div>
-          <div className="input-block">
-            <label>Expected Result</label>
-            <User_Input />
-          </div>
-        </div>
-        <div>
-          <div className="input-block">
-            <label>Annual Investment</label>
-            <User_Input />
-          </div>
-          <div className="input-block">
-            <label>Duration</label>
-            <User_Input />
-          </div>
-        </div>
-      </div>
-
-      <Results />
+      <User_Input input={inputField} onChangeInput={handleEditInputField} />
+      {isValidDuration ? (
+        <Results inputLogs={inputField} />
+      ) : (
+        <p className="center">Please enter duration greater than zero.</p>
+      )}
     </>
   );
 }
