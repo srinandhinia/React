@@ -15,23 +15,26 @@ export default function TimerChallenge({ targetTime, children }) {
   const timerIsActive = timeRemaining < targetTime * 1000 && timeRemaining > 0;
 
   function handleStopChallenge() {
-    clearInterval(timer.current);
-    setTimeRemaining(targetTime * 1000);
     dialog.current.open();
+    clearInterval(timer.current);
   }
 
   if (timeRemaining <= 0) {
     clearInterval(timer.current);
-    setTimeRemaining(targetTime * 1000);
     dialog.current.open();
+  }
+
+  function reset() {
+    setTimeRemaining(targetTime * 1000);
   }
 
   return (
     <>
       <ResultModal
         ref={dialog}
-        result={timerIsActive ? "" : "You Lost!"}
         targetTime={targetTime}
+        leftOverTime={timeRemaining}
+        onReset={reset}
       ></ResultModal>
       <section className="w-88 flex flex-col items-center justify-center p-8 mx-auto my-8 text-black bg-gradient-to-b from-teal-500 to-teal-700 rounded-md shadow-black">
         <h2 className="font-bold text-lg tracking-widest">{children}</h2>
