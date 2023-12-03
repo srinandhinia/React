@@ -18,13 +18,12 @@ export default function Player() {
           <button onClick={handleClickSubmit}>Set Name</button>
         </p>
       </section>
-      <div className="max-w-xl mx-auto my-12 flex flex-wrap gap-2">
-        <TimerChallenge targetTime={1}>EASY</TimerChallenge>
-        <TimerChallenge targetTime={5}>NOT EASY</TimerChallenge>
-        <TimerChallenge targetTime={10}>MODERATE</TimerChallenge>
-        <TimerChallenge targetTime={20}>ABOVE MODERATE</TimerChallenge>
+      <div className="max-w-3xl mx-auto my-12 flex flex-wrap gap-2">
+        <TimerChallenge title="EASY" targetTime={1}></TimerChallenge>
+        <TimerChallenge title="NOT EASY" targetTime={5}></TimerChallenge>
+        <TimerChallenge title="MODERATE" targetTime={10}></TimerChallenge>
+        <TimerChallenge title="ABOVE MODERATE" targetTime={20}></TimerChallenge>
       </div>
     </>
   );
 }
-//
