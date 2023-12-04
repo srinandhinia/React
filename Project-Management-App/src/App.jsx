@@ -1,17 +1,48 @@
 import Project from "./Components/Project";
 import Home from "./Components/Home";
+import InputForm from "./Components/InputForm";
 import { useState, useRef } from "react";
 
 function App() {
   const [createProject, setCreateProject] = useState(false);
-  const [saveProject, setSaveProject] = useState(false);
+
+  const [projectDetails, setProjectDetails] = useState({
+    projects: [],
+  });
+  // const [inputField, setInputField] = useState();
+
+  const title = useRef();
+  const desc = useRef();
+  const date = useRef();
+
   function handleCreateProject() {
     setCreateProject((value) => !value);
   }
-  function handleSave() {
-    setSaveProject((value) => !value);
-    setCreateProject(!createProject);
-    // setCreateProject((value) => !value);
+
+  function handleCreate_Save() {
+    handleCreateProject();
+    handleGetInputs();
+  }
+
+  function handleGetInputs() {
+    let projectData;
+    setProjectDetails((previousDetails) => {
+      projectData = {
+        title: title.current.value,
+        description: desc.current.value,
+        dueDate: date.current.value,
+      };
+      // const newProject = {
+      //   ...projectData,
+      //   id: Math.random(),
+      // };
+      return {
+        ...previousDetails,
+        projects: [...previousDetails.projects, projectData],
+      };
+    });
+
+    console.log(projectDetails);
   }
 
   return (
@@ -24,6 +55,7 @@ function App() {
           <button
             className="px-4 py-2 bg-zinc-800 text-zinc-500 font-medium rounded"
             type="click"
+            onClick={handleCreateProject}
           >
             +Add Project
           </button>
@@ -31,20 +63,27 @@ function App() {
 
         <div className="w-3/5 mx-auto px-1 py-24 pr-28">
           {createProject ? (
-            <Project saveCreatedProject={handleSave} />
+            <>
+              <div className="text-lg flex float-right">
+                <p className="text-black font-medium px-6 py-2">
+                  <button type="submit">Cancel</button>
+                </p>
+                <p className="bg-black text-yellow-50 font-bold px-2 py-2 w-20 text-center rounded">
+                  <button onClick={handleCreate_Save} type="submit">
+                    Save
+                  </button>
+                </p>
+              </div>
+
+              <div className="pt-10 pb-5">
+                <InputForm ref={title} labelName="TITLE"></InputForm>
+                <InputForm ref={desc} labelName="DESCRIPTION"></InputForm>
+                <InputForm ref={date} labelName="DUE DATE"></InputForm>
+              </div>
+            </>
           ) : (
-            <Home />
+            <Home project={handleCreateProject} />
           )}
-          {createProject && saveProject ? <Home /> : null}
-          <div>
-            <button
-              className="px-8 py-3 bg-zinc-800 text-zinc-400 font-medium rounded"
-              type="submit"
-              onClick={handleCreateProject}
-            >
-              Create New Project
-            </button>
-          </div>
         </div>
       </div>
     </>

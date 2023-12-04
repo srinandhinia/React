@@ -1,8 +1,7 @@
-import InputForm from "./InputForm";
 export default function Project({ saveCreatedProject }) {
   return (
     <>
-      <div className="text-lg flex float-right">
+      {/* <div className="text-lg flex float-right">
         <p className="text-black font-medium px-6 py-2">
           <button type="submit">Cancel</button>
         </p>
@@ -17,7 +16,7 @@ export default function Project({ saveCreatedProject }) {
         <InputForm labelName="TITLE"></InputForm>
         <InputForm labelName="DESCRIPTION"></InputForm>
         <InputForm labelName="DUE DATE"></InputForm>
-      </div>
+      </div> */}
     </>
   );
 }
