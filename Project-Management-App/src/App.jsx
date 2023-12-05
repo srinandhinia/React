@@ -1,27 +1,30 @@
 import Project from "./Components/Project";
 import Home from "./Components/Home";
 import InputForm from "./Components/InputForm";
+import Tasks from "./Components/Tasks";
 import { useState, useRef } from "react";
 
 function App() {
   const [createProject, setCreateProject] = useState(false);
+  const [addProject, setAddProject] = useState(false);
+  const [projectClicked, setProjectClicked] = useState();
+  const [save, setSave] = useState(false);
 
-  const [projectDetails, setProjectDetails] = useState({
-    projects: [],
-  });
+  const [projectDetails, setProjectDetails] = useState({ projects: [] });
   // const [inputField, setInputField] = useState();
 
   const title = useRef();
   const desc = useRef();
   const date = useRef();
 
-  function handleCreateProject() {
-    setCreateProject((value) => !value);
+  function handleSave() {
+    setSave((value) => !value);
+    setAddProject((value) => !value);
+    handleGetInputs();
   }
 
-  function handleCreate_Save() {
-    handleCreateProject();
-    handleGetInputs();
+  function handleAddProject() {
+    if (addProject === false) setAddProject((value) => !value);
   }
 
   function handleGetInputs() {
@@ -43,33 +46,58 @@ function App() {
     });
 
     console.log(projectDetails);
+    projectDetails.projects.map((project) => console.log(project));
+  }
+
+  function handleDisplayProject(projectTitle) {
+    setProjectClicked(projectTitle);
   }
 
   return (
     <>
-      <div className="w-full flex my-24">
+      <div className="w-full flex flex-row my-24 ">
         <div className="bg-black w-1/3 font-semibold text-lg tracking-wide h-screen rounded-r-3xl text-center pt-28">
           <h2 className=" px-3 pb-6  text-white tracking-wider">
             YOUR PROJECTS
           </h2>
-          <button
-            className="px-4 py-2 bg-zinc-800 text-zinc-500 font-medium rounded"
-            type="click"
-            onClick={handleCreateProject}
-          >
-            +Add Project
-          </button>
+          <div>
+            <button
+              className="px-4 py-2 my-4 bg-zinc-800 text-zinc-500 font-medium rounded"
+              type="click"
+              onClick={handleAddProject}
+            >
+              +Add Project
+            </button>
+
+            <div className="flex flex-auto flex-col m-1 ">
+              {projectDetails.projects.map((project) => (
+                <div className="bg-zinc-500 m-2 ">
+                  <button
+                    key={project.title}
+                    onClick={() => handleDisplayProject(project.title)}
+                  >
+                    {project.title}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="w-3/5 mx-auto px-1 py-24 pr-28">
-          {createProject ? (
+          {projectClicked ? (
+            <Tasks
+              projectDetails={projectDetails}
+              clickedProjectTitle={projectClicked}
+            />
+          ) : addProject || (createProject && save) ? (
             <>
               <div className="text-lg flex float-right">
                 <p className="text-black font-medium px-6 py-2">
                   <button type="submit">Cancel</button>
                 </p>
                 <p className="bg-black text-yellow-50 font-bold px-2 py-2 w-20 text-center rounded">
-                  <button onClick={handleCreate_Save} type="submit">
+                  <button onClick={handleSave} type="submit">
                     Save
                   </button>
                 </p>
@@ -82,7 +110,7 @@ function App() {
               </div>
             </>
           ) : (
-            <Home project={handleCreateProject} />
+            <Home project={handleAddProject} />
           )}
         </div>
       </div>
