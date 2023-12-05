@@ -1,6 +1,5 @@
 import { forwardRef, useState } from "react";
 const InputForm = forwardRef(function InputForm({ labelName }, ref) {
-  const [project, setProject] = useState();
   return (
     <form className="justify-center P-8 pb-6 ">
       <div className=" pt-2 pb-2 w-full">
