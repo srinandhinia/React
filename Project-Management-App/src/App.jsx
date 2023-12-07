@@ -90,10 +90,10 @@ function App() {
 
   function handleDeleteTask(taskId, clickedProjectTitle) {
     setProjectDetails((previousDetails) => {
-      previousDetails.projects.map((project) => {
-        console.log(taskId);
-        project.tasks.splice(taskId, 1);
-      });
+      previousDetails.projects.map((project) =>
+        project.tasks.splice(taskId, 1)
+      );
+
       return {
         projects: [...previousDetails.projects],
       };
