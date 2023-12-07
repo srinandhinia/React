@@ -58,15 +58,8 @@ function App() {
     console.log(projectDetails);
     console.log(clickedProjectTitle);
 
-    // projectDetails.projects.map((project) => {
-    //   if (project.title === clickedProjectTitle) {
-    //     taskdetails.unshift(tasks.current.value)
-    //     project.tasks = taskdetails;
-
     projectDetails.projects.map((project) => {
       if (project.title === clickedProjectTitle) {
-        // taskdetails.unshift(tasks.current.value);
-        // console.log(taskdetails);
         project.tasks
           ? (project.tasks = [tasks.current.value, ...project.tasks])
           : (project.tasks = [tasks.current.value]);
@@ -79,61 +72,73 @@ function App() {
       }
     });
 
-    // setProjectDetails((previousDetails) => {
-    //   const [...data] = previousDetails.projects;
-    //   taskdetails.unshift(tasks.current.value);
-    //   console.log(data);
-    //   const a = data.map((project) =>
-    //     project.title === clickedProjectTitle
-    //       ? (project.tasks = taskdetails)
-    //       : null
-    //   );
-
-    //   return {
-    //     projects: [...previousDetails.projects, a],
-    //   };
-
     console.log(projectDetails);
   }
 
+  function handleDeleteProject(clickedProjectTitle) {
+    setProjectDetails((previousDetails) => {
+      const updatedProject = previousDetails.projects.filter(
+        (project) => project.title !== clickedProjectTitle
+      );
+      console.log(projectDetails);
+      console.log(updatedProject);
+      return {
+        projects: [...updatedProject],
+      };
+    });
+  }
+
+  function handleDeleteTask(taskId, clickedProjectTitle) {
+    setProjectDetails((previousDetails) => {
+      previousDetails.projects.map((project) => {
+        console.log(taskId);
+        project.tasks.splice(taskId, 1);
+      });
+      return {
+        projects: [...previousDetails.projects],
+      };
+    });
+  }
+  console.log(projectDetails.projects);
+
   return (
     <>
-      <div className="w-full flex flex-row my-24 ">
-        <div className="bg-black w-1/3 font-semibold text-lg tracking-wide h-screen rounded-r-3xl text-center pt-28">
-          <h2 className=" px-3 pb-6  text-white tracking-wider">
-            YOUR PROJECTS
-          </h2>
+      <div className="  flex flex-row my-24 gap-8">
+        <div className="bg-black w-1/3 font-semibold text-lg md:w-72 tracking-wide h-screen rounded-r-3xl pt-28 px-8">
+          <h2 className=" text-white tracking-wider">YOUR PROJECTS</h2>
           <div>
             <button
-              className="px-4 py-2 my-4 bg-zinc-800 text-zinc-500 font-medium rounded"
+              className=" py-2 my-4 bg-zinc-800 text-zinc-500 font-medium rounded text-center"
               type="click"
               onClick={handleAddProject}
             >
               +Add Project
             </button>
-
-            <div className="flex flex-auto flex-col m-1 ">
-              {projectDetails.projects.map((project) => (
-                <div className="bg-zinc-500 m-2 ">
-                  <button
-                    id={project.title}
-                    onClick={() => handleDisplayProject(project.title)}
-                  >
-                    {project.title}
-                  </button>
-                </div>
-              ))}
-            </div>
           </div>
+          <ul>
+            {projectDetails.projects.map((project) => (
+              <li>
+                <button
+                  className="text-stone-500 hover: hover:bg-stone-800 text-left w-full py-1 rounded-sm"
+                  id={project.title}
+                  onClick={() => handleDisplayProject(project.title)}
+                >
+                  {project.title}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="w-3/5 mx-auto px-1 py-24 pr-28">
+        <div className="w-[35rem] px-1 py-24 pr-28">
           {projectClicked ? (
             <Tasks
               ref={tasks}
               projectDetails={projectDetails}
               clickedProjectTitle={projectClicked}
-              onSelect={handleAddTasks}
+              onAdd={handleAddTasks}
+              onDeleteProject={handleDeleteProject}
+              onDeleteTask={handleDeleteTask}
             />
           ) : addProject || (createProject && save) ? (
             <>
@@ -149,9 +154,22 @@ function App() {
               </div>
 
               <div className="pt-10 pb-5">
-                <InputForm ref={title} labelName="TITLE"></InputForm>
-                <InputForm ref={desc} labelName="DESCRIPTION"></InputForm>
-                <InputForm ref={date} labelName="DUE DATE"></InputForm>
+                <InputForm
+                  ref={title}
+                  type="text"
+                  labelName="TITLE"
+                ></InputForm>
+                <InputForm
+                  ref={desc}
+                  type="text"
+                  textarea
+                  labelName="DESCRIPTION"
+                ></InputForm>
+                <InputForm
+                  ref={date}
+                  type="date"
+                  labelName="DUE DATE"
+                ></InputForm>
               </div>
             </>
           ) : (

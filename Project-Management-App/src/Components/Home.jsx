@@ -1,6 +1,6 @@
 export default function Home({ project }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-2/3">
       <img className="w-24 h-24" src="/src/assets/no-projects.png" />
       <h2 className="text-zinc-600 font-semibold text-2xl pt-6 pb-4">
         No project selected

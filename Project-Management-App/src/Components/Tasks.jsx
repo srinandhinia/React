@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
+
 const Tasks = forwardRef(function Tasks(
-  { projectDetails, clickedProjectTitle, onSelect },
+  { projectDetails, clickedProjectTitle, onAdd, onDeleteProject, onDeleteTask },
   ref
 ) {
   return (
@@ -12,17 +13,22 @@ const Tasks = forwardRef(function Tasks(
             project.title === clickedProjectTitle && (
               <>
                 <ul>
-                  <li>
-                    <h2 className=" text-3xl font-bold pb-2">
+                  <li className="flex">
+                    <h2 className=" text-3xl font-bold pb-2 pr-24">
                       {project.title}
                     </h2>
+                    <button
+                      onClick={() => onDeleteProject(clickedProjectTitle)}
+                    >
+                      Delete
+                    </button>
                   </li>
                   <li>
                     <p className=" text-xs text-zinc-500 font-semibold pb-4">
                       {project.dueDate}
                     </p>
                   </li>
-                  <li>{project.description}</li>
+                  <li className="whitespace-pre-wrap">{project.description}</li>
                 </ul>
 
                 <hr className=" border-b-2 border-zinc-300"></hr>
@@ -36,17 +42,25 @@ const Tasks = forwardRef(function Tasks(
                       className="bg-zinc-300 border-red-300 pt-2 pb-2 pr-2 mr-4 mb-8 rounded"
                       type="text"
                     ></input>
-                    <button onClick={() => onSelect(clickedProjectTitle)}>
+                    <button onClick={() => onAdd(clickedProjectTitle)}>
                       Add Task
                     </button>
                   </div>
                 </div>
                 {project.tasks ? (
                   <div className="bg-zinc-100 pt-2 rounded">
-                    {project.tasks.map((task) => (
-                      <ul>
-                        <li className="p-2">{task}</li>
-                        <li>Clear</li>
+                    {project.tasks.map((task, index) => (
+                      <ul className="flex">
+                        <li className="p-2 ">{task}</li>
+                        <li>
+                          <button
+                            id={index}
+                            onClick={(e) => onDeleteTask(e.target.id)}
+                            className="p-2"
+                          >
+                            Clear
+                          </button>
+                        </li>
                       </ul>
                     ))}
                   </div>
