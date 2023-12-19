@@ -4,11 +4,8 @@ import { useState } from "react";
 import QUESTIONS from "../questions";
 export default function Question({
   index,
-  questionText,
   onSelectAnswer,
   onSkipAnswer,
-  answers,
-
   userAnswers,
 }) {
   const [answer, setAnswer] = useState({
@@ -16,7 +13,7 @@ export default function Question({
     isCorrect: null,
   });
 
-  function handleSelectAnswerType(answer) {
+  function handleSelectAnswer(answer) {
     setAnswer({
       selectedAnswer: answer,
       isCorrect: null,
@@ -39,16 +36,29 @@ export default function Question({
   } else if (answer.selectedAnswer) {
     answerState = "answered";
   }
+
+  let timer = 10000;
+  if (answer.selectedAnswer) {
+    timer = 1000;
+  }
+  if (answer.isCorrect !== null) {
+    timer = 2000;
+  }
   return (
     <div id="question">
-      <QuestionTimer timer={10000} onTimeOut={onSkipAnswer} />
-      <h2>{questionText}</h2>
+      <QuestionTimer
+        key={timer}
+        timer={timer}
+        onTimeOut={answer.selectedAnswer === "" ? onSkipAnswer : null}
+        mode={answerState}
+      />
+      <h2>{QUESTIONS[index].text}</h2>
       <Answers
-        answers={answers}
+        answers={QUESTIONS[index].answers}
         userAnswers={userAnswers}
         answerState={answerState}
         selectedAnswer={answer.selectedAnswer}
-        onSelectAnswerType={handleSelectAnswerType}
+        onSelectAnswer={handleSelectAnswer}
       />
     </div>
   );
