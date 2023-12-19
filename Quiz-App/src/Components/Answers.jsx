@@ -3,7 +3,8 @@ export default function Answers({
   answers,
   userAnswers,
   answerState,
-  onSelectAnswer,
+  selectedAnswer,
+  onSelectAnswerType,
 }) {
   const shuffledAnswers = useRef();
   if (!shuffledAnswers.current) {
@@ -14,7 +15,7 @@ export default function Answers({
     <ul id="answers">
       {shuffledAnswers.current.map((answer) => {
         let cssClass;
-        if (answer === userAnswers[userAnswers.length - 1]) {
+        if (answer === selectedAnswer) {
           cssClass = answerState ? "selected" : "";
           if (answerState === "correct") cssClass = "correct";
           if (answerState === "wrong") cssClass = "wrong";
@@ -22,7 +23,11 @@ export default function Answers({
 
         return (
           <li key={answer} className="answer">
-            <button className={cssClass} onClick={() => onSelectAnswer(answer)}>
+            <button
+              className={cssClass}
+              disabled={answerState !== ""}
+              onClick={() => onSelectAnswerType(answer)}
+            >
               {answer}
             </button>
           </li>

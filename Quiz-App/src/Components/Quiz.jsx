@@ -5,30 +5,29 @@ import quizCompleteImg from "../assets/quiz-complete.png";
 import Question from "./Question";
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
-  const [answerState, setAnswerState] = useState("");
-  const activeQuestionIndex =
-    answerState === "" ? userAnswers.length : userAnswers.length - 1;
+  // const [answerState, setAnswerState] = useState("");
+  const activeQuestionIndex = userAnswers.length;
   const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
-  const handleSelectAnswer = useCallback(
-    function handleSelectAnswer(selectedAnswer) {
-      setAnswerState("answered");
+  const handleSelectAnswer = useCallback(function handleSelectAnswer(
+    selectedAnswer
+  ) {
+    // setAnswerState("answered");
 
-      setUserAnswers((prevUserAnswer) => [...prevUserAnswer, selectedAnswer]);
+    setUserAnswers((prevUserAnswer) => [...prevUserAnswer, selectedAnswer]);
 
-      setTimeout(() => {
-        if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
-          setAnswerState("correct");
-        } else {
-          setAnswerState("wrong");
-        }
-        setTimeout(() => {
-          setAnswerState("");
-        }, 1000);
-      }, 1000);
-    },
-    [activeQuestionIndex]
-  );
+    // setTimeout(() => {
+    //   if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
+    //     setAnswerState("correct");
+    //   } else {
+    //     setAnswerState("wrong");
+    //   }
+    //   setTimeout(() => {
+    //     setAnswerState("");
+    //   }, 1000);
+    // }, 1000);
+  },
+  []);
 
   const handleSkipAnswer = useCallback(() => {
     handleSelectAnswer(null);
@@ -47,12 +46,13 @@ export default function Quiz() {
     <div id="quiz">
       <Question
         key={activeQuestionIndex}
+        index={activeQuestionIndex}
         questionText={QUESTIONS[activeQuestionIndex].text}
         onSelectAnswer={handleSelectAnswer}
         onSkipAnswer={handleSkipAnswer}
         answers={QUESTIONS[activeQuestionIndex].answers}
         userAnswers={userAnswers}
-        answerState={answerState}
+        // answerState={answerState}
       />
     </div>
   );
