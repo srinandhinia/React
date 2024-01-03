@@ -3,6 +3,7 @@ import { useContext } from "react";
 
 export default function Product({ id, image, title, price, description }) {
   const { addItemToCart } = useContext(CartContext);
+
   return (
     <article className="product">
       <img src={image} alt={title} />
