@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { CartContext } from "../store/Food-App-Context";
 export default function Cart() {
   const { selectedMeals, addItemToCart } = useContext(CartContext);
+  console.log(selectedMeals);
   return (
     <ul className="m-4">
       {selectedMeals.map((meal) => {

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../store/Food-App-Context";
 export default function Meals({ availableMeals, isLoading, onSelect }) {
-  const { addItemToCart } = useContext(CartContext);
+  const { selectedMeals, addItemToCart } = useContext(CartContext);
   return (
     <div className="flex flex-wrap w-[80%] mx-auto">
       {isLoading && <p>Meals are loading...</p>}
@@ -37,7 +37,7 @@ export default function Meals({ availableMeals, isLoading, onSelect }) {
                     className="bg-amber-400 text-xs px-2 py-1  rounded absolute bottom-3"
                     onClick={() => {
                       addItemToCart(meal.name, meal.price);
-                      onSelect();
+                      onSelect(meal.name, selectedMeals);
                     }}
                   >
                     Add to Cart
