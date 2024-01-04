@@ -3,6 +3,8 @@ import { createContext, useReducer } from "react";
 export const CartContext = createContext({
   selectedMeals: [],
   addItemToCart: () => {},
+  deleteItemFromCart: () => {},
+  error: "",
 });
 
 function cartReducer(state, action) {
@@ -29,6 +31,18 @@ function cartReducer(state, action) {
       };
     }
   }
+
+  if (action.type === "DELETE_ITEM") {
+    return {
+      selectedMeals: state.selectedMeals.map((meal) => {
+        const mealQuantity =
+          meal.quantity > 0 ? meal.quantity - 1 : meal.quantity;
+        return meal.name === action.payload.name
+          ? { ...meal, quantity: mealQuantity }
+          : meal;
+      }),
+    };
+  }
 }
 
 export default function CartContextProvider({ children }) {
@@ -45,9 +59,21 @@ export default function CartContextProvider({ children }) {
     });
   }
 
+  function handleDeleteItem(mealName, price, quantity) {
+    cartDispatch({
+      type: "DELETE_ITEM",
+      payload: {
+        name: mealName,
+        price,
+        quantity,
+      },
+    });
+  }
+
   const cartCntxt = {
     selectedMeals: cartState.selectedMeals,
     addItemToCart: handleAddItemToCart,
+    deleteItemFromCart: handleDeleteItem,
   };
 
   return (

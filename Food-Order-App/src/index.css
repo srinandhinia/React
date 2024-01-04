@@ -240,6 +240,19 @@ h1 {
   color: #ffab04;
 }
 
+
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(4rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
 .modal {
   background-color: #e4ddd4;
   border-radius: 6px;
@@ -254,15 +267,3 @@ h1 {
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.55);
 }
-
-@keyframes fade-slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(4rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-} */

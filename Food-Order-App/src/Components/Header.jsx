@@ -4,6 +4,7 @@ import CartModal from "./CartModal";
 
 export default function Header({ cartValue }) {
   const dialog = useRef();
+
   function handleShowModal() {
     dialog.current.showModal();
   }

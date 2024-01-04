@@ -7,11 +7,11 @@ function App() {
   const [cartValue, setCartValue] = useState(0);
 
   function handleUpdateCartValue(name, selectedMeals) {
-    const mealAlreadyExists = selectedMeals.some((meal) => meal.name === name);
+    const itemAlreadyExists = selectedMeals.some((meal) => meal.name === name);
 
     setCartValue((prevCartValue) => {
       if (!selectedMeals.length) return prevCartValue + 1;
-      return mealAlreadyExists ? prevCartValue : prevCartValue + 1;
+      return itemAlreadyExists ? prevCartValue : prevCartValue + 1;
     });
   }
 
