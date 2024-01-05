@@ -1,12 +1,18 @@
-import { useRef } from "react";
 import logoImg from "../assets/logo.jpg";
-import CartModal from "./CartModal";
+import { UserProgressContext } from "../store/UserProgress";
+import { CartContext } from "../store/Food-App-Context";
+import { useContext } from "react";
 
-export default function Header({ cartValue }) {
-  const dialog = useRef();
+export default function Header({ itemAlreadyExists }) {
+  const { showCart } = useContext(UserProgressContext);
+  const { selectedMeals } = useContext(CartContext);
+
+  const cartValue = selectedMeals.reduce((cartInitialValue, meal) => {
+    return cartInitialValue + meal.quantity;
+  }, 0);
 
   function handleShowModal() {
-    dialog.current.showModal();
+    showCart();
   }
   return (
     <>
@@ -30,7 +36,6 @@ export default function Header({ cartValue }) {
           </button>
         </div>
       </div>
-      <CartModal ref={dialog} />
     </>
   );
 }

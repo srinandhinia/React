@@ -253,17 +253,23 @@ h1 {
     transform: translateY(0);
   }
 } */
-.modal {
-  background-color: #e4ddd4;
-  border-radius: 6px;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  padding: 1rem;
-  width: 80%;
-  max-width: 40rem;
-  animation: fade-slide-up 0.3s ease-out forwards;
+
+.control {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.55);
+.control label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.control input {
+  width: 100%;
+  max-width: 20rem;
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }

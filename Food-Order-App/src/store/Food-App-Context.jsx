@@ -4,7 +4,7 @@ export const CartContext = createContext({
   selectedMeals: [],
   addItemToCart: () => {},
   deleteItemFromCart: () => {},
-  error: "",
+  clearCart: () => {},
 });
 
 function cartReducer(state, action) {
@@ -33,14 +33,29 @@ function cartReducer(state, action) {
   }
 
   if (action.type === "DELETE_ITEM") {
+    if (action.payload.quantity > 1) {
+      return {
+        ...state,
+        selectedMeals: state.selectedMeals.map((meal) => {
+          return meal.name === action.payload.name
+            ? { ...meal, quantity: meal.quantity - 1 }
+            : meal;
+        }),
+      };
+    } else {
+      return {
+        ...state,
+        selectedMeals: state.selectedMeals.filter(
+          (meal) => meal.name !== action.payload.name
+        ),
+      };
+    }
+  }
+
+  if (action.type === "CLEAR_CART") {
     return {
-      selectedMeals: state.selectedMeals.map((meal) => {
-        const mealQuantity =
-          meal.quantity > 0 ? meal.quantity - 1 : meal.quantity;
-        return meal.name === action.payload.name
-          ? { ...meal, quantity: mealQuantity }
-          : meal;
-      }),
+      ...state,
+      selectedMeals: [],
     };
   }
 }
@@ -70,10 +85,17 @@ export default function CartContextProvider({ children }) {
     });
   }
 
+  function handleClearCart() {
+    cartDispatch({
+      type: "CLEAR_CART",
+    });
+  }
+
   const cartCntxt = {
     selectedMeals: cartState.selectedMeals,
     addItemToCart: handleAddItemToCart,
     deleteItemFromCart: handleDeleteItem,
+    clearCart: handleClearCart,
   };
 
   return (

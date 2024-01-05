@@ -1,25 +1,22 @@
 import Header from "./Components/Header";
-import AvailableMeals from "./Components/AvailableMeals";
-import { useState, useRef } from "react";
+import Meals from "./Components/Meals";
+import CartModal from "./Components/CartModal";
 import CartContextProvider from "./store/Food-App-Context";
+import UserProgressContextProvider from "./store/UserProgress";
+import CheckoutFormModal from "./Components/CheckoutFormModal";
+import OrderStatusModal from "./Components/OrderStatusModal";
 
 function App() {
-  const [cartValue, setCartValue] = useState(0);
-
-  function handleUpdateCartValue(name, selectedMeals) {
-    const itemAlreadyExists = selectedMeals.some((meal) => meal.name === name);
-
-    setCartValue((prevCartValue) => {
-      if (!selectedMeals.length) return prevCartValue + 1;
-      return itemAlreadyExists ? prevCartValue : prevCartValue + 1;
-    });
-  }
-
   return (
-    <CartContextProvider>
-      <Header cartValue={cartValue} />
-      <AvailableMeals onSelect={handleUpdateCartValue} />
-    </CartContextProvider>
+    <UserProgressContextProvider>
+      <CartContextProvider>
+        <Header />
+        <Meals />
+        <CartModal />
+        <CheckoutFormModal />
+        <OrderStatusModal />
+      </CartContextProvider>
+    </UserProgressContextProvider>
   );
 }
 
