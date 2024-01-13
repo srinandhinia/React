@@ -6,6 +6,9 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
+import RootLayout from "./pages/Root";
+import ErrorPage from "./pages/ErrorPage";
+import ProductDetail from "./pages/ProductDetail";
 
 // Below is alternative approach
 // const routeDefinitions = createRoutesFromElements(
@@ -17,8 +20,17 @@ import Products from "./pages/Products";
 // const router = createBrowserRouter(routeDefinitions);
 
 const router = createBrowserRouter([
-  { path: "/", element: <HomePage /> },
-  { path: "/products", element: <Products /> },
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "", element: <HomePage /> },
+      // or{index: true, element: <HomePage />}
+      { path: "/products", element: <Products /> },
+      { path: "/products/:productId", element: <ProductDetail /> },
+    ],
+  },
 ]);
 
 function App() {
