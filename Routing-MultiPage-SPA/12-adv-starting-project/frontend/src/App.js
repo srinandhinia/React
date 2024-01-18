@@ -1,10 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import EventsPage from "./pages/EventsPage";
-import EventDetailPage from "./pages/EventDetailPage";
-import NewEventPage from "./pages/NewEventPage";
+import EventsPage, { loader as eventsLoader } from "./pages/EventsPage";
+import EventDetailPage, {
+  loader as eventDetailLoader,
+  action as deleteEventAction,
+} from "./pages/EventDetailPage";
+import NewEventPage, { action as newEventAction } from "./pages/NewEventPage";
 import RootLayoutPage from "./pages/RootLayout";
-import EventsNavigation from "./components/EventsNavigation";
+import EventsLayoutPage from "./pages/EventsRoot";
+import ErrorPage from "./pages/Error";
+import EditEventPage from "./pages/EditEventPage";
+
 // Challenge / Exercise
 
 // 1. Add five new (dummy) page components (content can be simple <h1> elements)
@@ -31,16 +37,34 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayoutPage />,
+    errorElement: <ErrorPage />,
     children: [
-      { path: "", element: <HomePage /> },
+      { index: true, element: <HomePage /> },
       {
         path: "/events",
-        element: <EventsNavigation />,
+        element: <EventsLayoutPage />,
         children: [
-          { path: "/events", element: <EventsPage /> },
-          { path: "/events/:eventId", element: <EventDetailPage /> },
-          { path: "/events/new", element: <NewEventPage /> },
-          { path: "/events/:eventId/edit", element: <HomePage /> },
+          {
+            index: true,
+            element: <EventsPage />,
+            loader: eventsLoader,
+          },
+          {
+            path: ":eventId",
+            id: "event-detail",
+            loader: eventDetailLoader,
+            children: [
+              {
+                index: true,
+                element: <EventDetailPage />,
+                action: deleteEventAction,
+              },
+              { path: "edit", element: <EditEventPage /> },
+            ],
+          },
+
+          { path: "new", element: <NewEventPage />, action: newEventAction },
+          ,
         ],
       },
     ],
