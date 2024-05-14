@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { saveMeal } from "./meals";
+import { revalidatePath } from "next/cache";
 
 export async function shareMeal(prevState, formData) {
   function isInvalidText(text) {
@@ -30,5 +31,8 @@ export async function shareMeal(prevState, formData) {
     return { message: "Invalid Input" };
   }
   await saveMeal(meal);
+  revalidatePath("/meals");
+  // During build process, all the static pages are pre-rendered. And due to caching, the new meal which is added wont be reflected.
+  // So with this revalidatePath(), the page mentioned will be re-rendered and thus new meal reflects.
   redirect("/meals");
 }
